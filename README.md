@@ -2,8 +2,8 @@
 
 A tiny daily journal: one entry per day, max 280 characters, with a mood.
 
-- **Frontend:** React + TypeScript (Vite) — `client/`
-- **Backend:** Node.js + Express + TypeScript — `server/`
+- **Frontend:** React + TypeScript (Vite) — `frontend/`
+- **Backend:** Node.js + Express + TypeScript — `backend/`
 - **Database:** SQLite (via `better-sqlite3`), owned by the backend
 
 ## Features
@@ -41,7 +41,7 @@ npm run dev
 
 The Vite dev server proxies `/api/*` to the backend, so just open http://localhost:5173.
 
-The SQLite database is created automatically at `server/data/journal.db` on first run.
+The SQLite database is created automatically at `backend/data/journal.db` on first run.
 
 ## Dev container (recommended)
 
@@ -73,17 +73,17 @@ Notes:
 | Command         | Description                                    |
 | --------------- | ---------------------------------------------- |
 | `npm run dev`   | Start backend (watch mode) and frontend (Vite) |
-| `npm run build` | Type-check and build both server and client    |
-| `npm start`     | Run the compiled backend (`server/dist`)       |
+| `npm run build` | Type-check and build both backend and frontend |
+| `npm start`     | Run the compiled backend (`backend/dist`)      |
 
 ## Configuration
 
 Backend environment variables:
 
-| Variable  | Default                  | Description          |
-| --------- | ------------------------ | -------------------- |
-| `PORT`    | `3001`                   | API port             |
-| `DB_PATH` | `server/data/journal.db` | SQLite database file |
+| Variable  | Default                   | Description          |
+| --------- | ------------------------- | -------------------- |
+| `PORT`    | `3001`                    | API port             |
+| `DB_PATH` | `backend/data/journal.db` | SQLite database file |
 
 "Today" is determined by the server's local date.
 
@@ -117,13 +117,13 @@ CREATE TABLE entries (
 ```
 micro-journal/
 ├── package.json        # workspaces + dev script
-├── server/
+├── backend/
 │   └── src/
 │       ├── index.ts    # Express app
 │       ├── db.ts       # SQLite connection + schema
 │       ├── dates.ts    # local date helpers
 │       └── routes.ts   # REST API
-└── client/
+└── frontend/
     └── src/
         ├── api.ts      # API client + types
         ├── moods.ts    # mood emoji/labels/colors
