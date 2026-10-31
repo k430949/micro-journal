@@ -39,6 +39,22 @@ The Vite dev server proxies `/api/*` to the backend, so just open http://localho
 
 The SQLite database is created automatically at `server/data/journal.db` on first run.
 
+## Dev container (recommended)
+
+The repo includes a [dev container](.devcontainer/) (Node.js 22, Git, `sqlite3` CLI and the recommended VS Code extensions).
+
+1. Install [VS Code](https://code.visualstudio.com/), the **Dev Containers** extension, and Docker (or Podman — set `"dev.containers.dockerPath": "podman"` in VS Code settings).
+2. Clone the repo and open the folder in VS Code.
+3. Run **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
+4. Wait for the first build; dependencies are installed automatically (`npm install`).
+5. In the container terminal run `npm run dev` and open http://localhost:5173.
+
+Notes:
+
+- The container uses host networking (`--network=host`), so the app ports are reachable directly on the host.
+- Every `.crt` file in `.devcontainer/certs/` is added to the container's trust store (for TLS-inspecting proxies such as Zscaler). Keep at least one `.crt` file there, otherwise the image build fails.
+- After changing `.devcontainer/*`, run **Dev Containers: Rebuild Container**.
+
 ## Scripts
 
 | Command         | Description                                    |
