@@ -18,8 +18,12 @@ Moods: 😄 great · 🙂 good · 😐 okay · 😕 rough · 😞 bad
 
 ## Requirements
 
-- Node.js 18+ (20 or 22 recommended)
-- npm 8+ (uses npm workspaces)
+- Node.js 20+ and npm (uses npm workspaces)
+- Git
+- VS Code with the GitHub Copilot extension
+- Optional: [Playwright CLI](https://github.com/microsoft/playwright-cli) and [uv](https://docs.astral.sh/uv/) (for MCP servers / browser automation)
+
+All of the above are preinstalled in the [dev container](#dev-container-recommended).
 
 ## Setup
 
@@ -41,13 +45,22 @@ The SQLite database is created automatically at `server/data/journal.db` on firs
 
 ## Dev container (recommended)
 
-The repo includes a [dev container](.devcontainer/) (Node.js 22, Git, `sqlite3` CLI and the recommended VS Code extensions).
+The repo includes a [dev container](.devcontainer/) with:
+
+- Node.js 22, npm, Git, GitHub CLI (`gh`) and the `sqlite3` CLI
+- Playwright CLI (`playwright-cli`) with Chromium and its system dependencies
+- uv / uvx (for Python-based MCP servers)
+- VS Code extensions: GitHub Copilot + Copilot Chat, ESLint, Prettier, SQLite Viewer, REST Client
+
+Setup:
 
 1. Install [VS Code](https://code.visualstudio.com/), the **Dev Containers** extension, and Docker (or Podman — set `"dev.containers.dockerPath": "podman"` in VS Code settings).
 2. Clone the repo and open the folder in VS Code.
 3. Run **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
 4. Wait for the first build; dependencies are installed automatically (`npm install`).
 5. In the container terminal run `npm run dev` and open http://localhost:5173.
+6. Verify the tooling: `node -v && git --version && gh --version && playwright-cli --version && uv --version`.
+7. First time only: run `gh auth login`; for Copilot agent skills, run `playwright-cli install --skills` in the project.
 
 Notes:
 

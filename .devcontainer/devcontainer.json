@@ -4,10 +4,14 @@
   // --network=host: use the host/VM network (the default container network times out on the UPM network).
   // NODE_EXTRA_CA_CERTS / SSL_CERT_FILE: Node, npm and other tools use the system certificates,
   // which include the Zscaler root (see Dockerfile).
-  // forwardPorts: 5173 = Vite dev server (frontend), 3000 = Express API (backend).
+  // forwardPorts: 5173 = Vite dev server (frontend), 3001 = Express API (backend).
   // postCreateCommand: npm install in every app folder that has a package.json (skips on an empty repo).
+  // Tooling: Node 22 + npm + Git (base image), GitHub CLI (feature), Playwright CLI + Chromium and uv/uvx (Dockerfile).
   "name": "micro-journal",
   "build": { "dockerfile": "Dockerfile", "options": ["--network=host"] },
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
   "runArgs": ["--network=host"],
   "containerUser": "node",
   "remoteUser": "node",
@@ -16,10 +20,10 @@
     "NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/ca-certificates.crt",
     "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt"
   },
-  "forwardPorts": [5173, 3000],
+  "forwardPorts": [5173, 3001],
   "portsAttributes": {
     "5173": { "label": "Frontend (Vite)", "onAutoForward": "openBrowser" },
-    "3000": { "label": "Backend (Express API)", "onAutoForward": "notify" }
+    "3001": { "label": "Backend (Express API)", "onAutoForward": "notify" }
   },
   "postCreateCommand": "git config --global --add safe.directory '*' && for d in . frontend backend client server; do [ -f \"$d/package.json\" ] && (cd \"$d\" && npm install); done; true",
   "customizations": {

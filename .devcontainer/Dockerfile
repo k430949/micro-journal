@@ -18,3 +18,18 @@ RUN chmod 1777 /tmp \
 RUN apt-get update \
  && apt-get install -y --no-install-recommends sqlite3 \
  && rm -rf /var/lib/apt/lists/*
+
+# Let Node/npm and uv trust the system store (incl. Zscaler) during the build too, not just at runtime.
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt \
+    SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+
+# Playwright CLI (Modules 05-06) plus Chromium and its system libraries.
+# Shared browsers path so the non-root "node" user can use the browser installed here as root.
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN npm install -g @playwright/cli@latest \
+ && playwright-cli install-browser chromium --with-deps \
+ && chmod -R a+rX /ms-playwright \
+ && rm -rf /var/lib/apt/lists/*
+
+# uv / uvx for Python-based MCP servers (uv downloads Python itself when needed).
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
